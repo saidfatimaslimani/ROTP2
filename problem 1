@@ -1,0 +1,41 @@
+//fichier de model (.mod )
+ 
+ //déclarer le nombre des taches
+range I=1..18;
+
+//déclarer les durées des principales tâches 
+
+   int Dure[i in I] ;
+
+// Déclarer les variables de décisions
+    dvar int t[I];   
+
+// function objectif
+    minimize t[18];
+
+
+// contraintes
+subject to
+{
+   t[1]+Dure[1]<=t[2];
+   t[2]+Dure[2]<=t[3],t[4],t[14];
+   t[3]+Dure[3]<=t[5];
+   t[4]+Dure[4]<=t[6],t[7],t[9],t[10],t[15];
+   t[5]+Dure[5]<=t[6];
+   t[6]+Dure[6]<=t[2],t[8],t[9],t[11];
+   t[7]+Dure[7]<=t[13];
+   t[8]+Dure[8]<=t[16];
+   t[9]+Dure[9]<=t[12];
+   t[11]+Dure[11]<=t[16];
+   t[12]+Dure[12]<=t[17];
+   t[14]+Dure[14]<=t[15],t[16];
+   t[17]+Dure[17]<=t[18];
+   t[18]+Dure[18]<=t[17];
+}
+
+
+
+
+//fichier des données(.dat)
+
+Dure=[2,16,9,8,10,6,2,2,9,5,3,2,1,7,4,3,9,1];
