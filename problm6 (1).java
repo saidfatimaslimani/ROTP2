@@ -1,7 +1,7 @@
 import ilog.concert.*;
 import ilog.cplex.*;
 
-public class exoTP {
+public class problem6 {
        public static void main(String[] args) {
                calcul ();
        }
@@ -11,6 +11,7 @@ public static void calcul (){
           IloCplex simplexe = new IloCplex ();
         
           // declaration des coefficients de la fonction objectif
+          double [][] G;
           double [][] D={{0,15,37,55,24,60,18,33,48,40,58,67},
                        {15,0,22,40,38,52,33,48,42,55,61,61},
                        {37,22,0,18,16,30,41,28,20,58,39,39},
@@ -43,8 +44,8 @@ public static void calcul (){
     // Définition des coefficients de la fonction objectif
     for(int i=0;i<12;i++){
     	  for(int j=0;j<12;j++){
-          double g=H[i]*D[i][j];
-    		   objectif.addTerm(g,X[i][j]);
+          double G[i][j]=H[i]*D[i][j];
+    		   objectif.addTerm(G[i][j],X[i][j]);
             }
         }
            
@@ -52,7 +53,7 @@ public static void calcul (){
            simplexe.addMinimize(objectif);
 
 
-    // contrainte 1 : 1*X1 + 2*X2 <= 70
+    // contrainte 1 : 
           IloLinearNumExpr contrainte_1 = simplexe.linearNumExpr();
            for(int j=0;j<12;j++){
               contrainte_1.addTerm(1, Y[i]);
@@ -60,7 +61,7 @@ public static void calcul (){
 
           simplexe.addLe(contrainte_1, 3);
      
-     //deuxième contrainte
+     //contrainte 2 :
            IloLinearNumExpr contrainte_2 = simplexe.linearNumExpr();
            for(int i=0;i<12;i++){
               for(int j=0;j<12;j++){
@@ -68,9 +69,15 @@ public static void calcul (){
                 }
             }
            simplexe.addLe(contrainte_2, 1);
-
+     //contrainte 3 :
+          IloLinearNumExpr contrainte_3 = simplexe.linearNumExpr();
+            for(int i=0;i<12;i++){
+              for(int j=0;j<12;j++){
+                 contrainte_3.addTerm(X[i][j],Y[j]);
+                }
+            }
+           simplexe.addLe(contrainte_3, 1);
       
-
 
        simplexe.solve(); // lancer la resolution
 
